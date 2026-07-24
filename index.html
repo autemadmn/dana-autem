@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dana · Bar y Restaurante HN — Carta</title>
+<meta name="description" content="Carta digital de Dana Bar y Restaurante HN. Donde el sabor sorprende.">
+<meta name="theme-color" content="#0F0A07">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Great+Vibes&display=swap" rel="stylesheet">
+<style>
+/* =========================================================================
+   DANA · SISTEMA VISUAL
+   Tokens extraídos del mockup. No cambiar sin revisar la guía de estilo.
+   ========================================================================= */
+:root{
+  /* marca */
+  --orange:        #E3620A;
+  --orange-hi:     #F5871F;   /* texto naranja pequeño: contraste AA */
+  --orange-lo:     #C24608;
+  --ember:         #FF8A3D;
+
+  /* superficies */
+  --bg:            #0F0A07;
+  --bg-warm:       #231A15;
+  --surface:       #150D07;
+  --surface-2:     #11100C;
+  --nav:           #0E0D09;
+
+  /* bordes */
+  --b-brand:       rgba(227,98,10,.75);
+  --b-soft:        rgba(255,255,255,.10);
+  --b-row:         rgba(255,255,255,.16);
+
+  /* texto */
+  --text:          #FFFFFF;
+  --text-2:        #B7B1AD;
+  --text-3:        #7C736D;
+
+  /* tipografía */
+  --f-ui:          "Montserrat", system-ui, -apple-system, sans-serif;
+  --f-script:      "Great Vibes", cursive;
+
+  /* geometría */
+  --r-card:        14px;
+  --r-thumb:       10px;
+  --r-ctrl:        8px;
+  --gutter:        15px;
+  --gutter-list:   12px;
+  --h-header:      62px;
+  --h-nav:         70px;
+
+  /* efectos */
+  --glow-brand:    0 0 12px rgba(227,98,10,.30);
+
+  --safe-b:        env(safe-area-inset-bottom, 0px);
+}
+
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  font-family:var(--f-ui);
+  background:#080604;
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  overscroll-behavior-y:none;
+}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+img{display:block;max-width:100%}
+:focus-visible{outline:2px solid var(--orange-hi);outline-offset:2px;border-radius:4px}
+
+/* ---------- Marco: móvil primero, centrado en escritorio ---------- */
+#app{
+  position:relative;
+  max-width:430px;
+  min-height:100vh;
+  min-height:100dvh;
+  margin:0 auto;
+  overflow:hidden;
+  /* textura de madera generada por CSS: sin dependencias externas */
+  background:
+    radial-gradient(125% 75% at 50% 38%, rgba(0,0,0,0) 0%, rgba(0,0,0,.62) 100%),
+    repeating-linear-gradient(92deg,
+      rgba(255,255,255,.017) 0px, rgba(255,255,255,.017) 1px,
+      rgba(0,0,0,0) 1px, rgba(0,0,0,0) 5px),
+    repeating-linear-gradient(88deg,
+      var(--bg-warm) 0px, var(--bg) 34px, #1B120C 62px, var(--bg) 96px),
+    var(--bg);
+  box-shadow:0 0 80px rgba(0,0,0,.9);
+}
+/* brasas: sólo en la franja superior, nunca detrás del contenido */
+#app::before{
+  content:"";position:absolute;inset:0 0 auto 0;height:190px;pointer-events:none;
+  mix-blend-mode:screen;opacity:.5;z-index:0;
+  background:
+    radial-gradient(60px 90px at 8% -10%,  rgba(255,90,0,.55), transparent 70%),
+    radial-gradient(90px 70px at 96% 4%,   rgba(255,120,20,.45), transparent 70%),
+    radial-gradient(40px 60px at 74% -6%,  rgba(214,40,0,.40), transparent 70%);
+}
+
+/* ---------- Vistas ---------- */
+.view{display:none;position:relative;z-index:1}
+.view.is-active{display:block;animation:fade .28s ease both}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){
+  .view.is-active{animation:none}
+  *{transition:none !important}
+}
+
+/* =========================================================================
+   1 · SPLASH
+   ========================================================================= */
+#splash{
+  min-height:100vh;min-height:100dvh;
+  display:flex;flex-direction:column;align-items:center;
+  padding:34px 24px calc(28px + var(--safe-b));
+  text-align:center;position:relative;overflow:hidden;
+}
+#splash::after{ /* fuego inferior */
+  content:"";position:absolute;left:0;right:0;bottom:0;height:62%;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(120% 62% at 50% 108%, rgba(255,122,20,.42), transparent 66%),
+    radial-gradient(70% 44% at 22% 104%,  rgba(214,44,0,.36), transparent 70%),
+    radial-gradient(70% 46% at 80% 106%,  rgba(255,160,40,.24), transparent 70%);
+  mix-blend-mode:screen;
+}
+#splash > *{position:relative;z-index:1}
+
+.splash-hero{
+  position:absolute;inset:auto 0 0 0;height:56%;z-index:0;
+  object-fit:cover;width:100%;
+  -webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 42%);
+          mask-image:linear-gradient(180deg,transparent 0%,#000 42%);
+  opacity:.62;
+}
+
+.logo{display:flex;flex-direction:column;align-items:center;gap:2px}
+.logo-mark{display:flex;align-items:flex-end;gap:9px}
+.logo-name{
+  font-size:40px;font-weight:700;letter-spacing:-.5px;line-height:1;
+  text-shadow:0 2px 10px rgba(0,0,0,.7);
+}
+.logo-two{
+  font-size:38px;font-weight:800;line-height:.9;color:#fff;
+  text-shadow:0 2px 10px rgba(0,0,0,.7);
+}
+.logo-sub{
+  font-size:11px;font-weight:500;letter-spacing:.06em;color:#E8E2DD;
+  margin-top:-2px;
+}
+.logo-flag{width:150px;height:9px;border-radius:5px;margin-bottom:10px;
+  background:linear-gradient(180deg,#0F7FD4 0 33%,#fff 33% 66%,#0F7FD4 66% 100%);
+  box-shadow:0 1px 6px rgba(0,0,0,.6)}
+.logo img{max-width:230px;margin:0 auto}
+
+.claim{margin:38px 0 0}
+.claim-sm{font-size:24px;font-weight:300;letter-spacing:.02em;line-height:1.1}
+.claim-script{
+  font-family:var(--f-script);font-size:76px;line-height:.92;color:var(--orange);
+  margin:2px 0 -2px;text-shadow:0 4px 22px rgba(227,98,10,.35);
+}
+
+.splash-spacer{flex:1;min-height:150px}
+
+.btn-primary{
+  display:inline-flex;align-items:center;justify-content:center;gap:11px;
+  width:220px;height:48px;border-radius:24px;
+  background:linear-gradient(180deg,#EE6A18,#C24608);
+  font-size:15px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  box-shadow:0 8px 22px rgba(227,98,10,.38);
+  transition:transform .15s ease,box-shadow .15s ease;
+}
+.btn-primary:active{transform:scale(.97);box-shadow:0 4px 14px rgba(227,98,10,.4)}
+
+.socials{display:flex;gap:20px;justify-content:center;margin-top:20px}
+.socials a{color:#fff;opacity:.9;transition:opacity .15s}
+.socials a:hover{opacity:1}
+.chev-down{margin-top:16px;opacity:.75;animation:bob 2.2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+
+/* =========================================================================
+   CABECERA + NAV (compartidos)
+   ========================================================================= */
+.hdr{
+  position:sticky;top:0;z-index:20;height:var(--h-header);
+  display:flex;align-items:center;padding:0 var(--gutter);
+  background:linear-gradient(180deg,rgba(8,5,3,.94),rgba(8,5,3,.55) 70%,transparent);
+  backdrop-filter:blur(3px);
+}
+.hdr-btn{width:34px;height:34px;display:grid;place-items:center;margin-left:-6px}
+.hdr-logo{position:absolute;left:50%;transform:translateX(-50%);text-align:center;pointer-events:none}
+.hdr-logo .logo-name{font-size:21px}
+.hdr-logo .logo-sub{font-size:7.5px;letter-spacing:.04em}
+.hdr-logo .logo-two{font-size:20px}
+.hdr-logo .logo-flag{width:88px;height:5px;margin-bottom:5px}
+
+.page{padding-bottom:calc(var(--h-nav) + var(--safe-b) + 14px)}
+
+.nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:30;
+  max-width:430px;margin:0 auto;
+  height:calc(var(--h-nav) + var(--safe-b));
+  padding-bottom:var(--safe-b);
+  display:grid;grid-template-columns:repeat(5,1fr);align-items:center;
+  background:var(--nav);border-top:1px solid rgba(255,255,255,.08);
+}
+.nav button{display:flex;flex-direction:column;align-items:center;gap:5px;padding:6px 0;color:var(--text-3)}
+.nav button span{font-size:10px;font-weight:500;letter-spacing:.02em}
+.nav button.is-on{color:var(--orange)}
+.nav svg{width:22px;height:22px}
+
+/* =========================================================================
+   TÍTULOS DE SECCIÓN
+   ========================================================================= */
+.sect-title{
+  text-align:center;font-size:30px;font-weight:800;letter-spacing:.01em;
+  text-transform:uppercase;margin:14px 0 0;line-height:1.1;padding:0 20px;
+  text-shadow:0 2px 12px rgba(0,0,0,.6);
+}
+.sect-title em{font-style:normal;color:var(--orange)}
+.ornament{display:flex;align-items:center;justify-content:center;gap:9px;margin:11px 0 20px}
+.ornament i{display:block;width:44px;height:1px;background:linear-gradient(90deg,transparent,var(--b-brand))}
+.ornament i+i{background:linear-gradient(90deg,var(--b-brand),transparent)}
+.ornament svg{width:11px;height:11px;color:var(--orange)}
+
+/* =========================================================================
+   2 · TARJETAS DE CATEGORÍA
+   ========================================================================= */
+.cats{padding:0 var(--gutter);display:flex;flex-direction:column;gap:18px}
+.cat{
+  position:relative;display:block;width:100%;height:102px;
+  border:1px solid var(--b-brand);border-radius:var(--r-card);
+  background:#0B0704;box-shadow:var(--glow-brand);overflow:hidden;text-align:left;
+  transition:transform .15s ease,box-shadow .15s ease;
+}
+.cat:active{transform:scale(.985);box-shadow:0 0 18px rgba(227,98,10,.45)}
+.cat-img{
+  position:absolute;inset:0 0 0 auto;width:56%;height:100%;object-fit:cover;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 38%);
+          mask-image:linear-gradient(90deg,transparent 0%,#000 38%);
+}
+.cat-label{
+  position:relative;z-index:2;padding:0 18px;height:100%;
+  display:flex;flex-direction:column;justify-content:center;
+  font-weight:700;text-transform:uppercase;line-height:1.24;
+  text-shadow:0 2px 8px rgba(0,0,0,.9);
+}
+.cat-label .l1{font-size:21px}
+.cat-label .l2{font-size:21px;color:var(--orange)}
+.cat-label.one .l1{font-size:26px;color:var(--orange)}
+.cat-chev{position:absolute;right:14px;top:50%;transform:translateY(-50%);z-index:2;color:#fff;opacity:.85}
+
+/* =========================================================================
+   3 · TARJETAS DE PLATO
+   ========================================================================= */
+.dishes{padding:0 var(--gutter-list);display:flex;flex-direction:column;gap:9px}
+.dish{
+  position:relative;display:flex;gap:12px;width:100%;text-align:left;
+  padding:9px;padding-right:14px;
+  background:var(--surface);border:1px solid var(--b-soft);border-radius:12px;
+  transition:border-color .15s ease,transform .15s ease;
+}
+.dish:active{transform:scale(.99);border-color:rgba(227,98,10,.45)}
+.thumb{
+  flex:0 0 92px;width:92px;height:92px;border-radius:var(--r-thumb);
+  overflow:hidden;background:#0B0704;position:relative;
+}
+.thumb img{width:100%;height:100%;object-fit:cover}
+/* placeholder de marca cuando no hay foto */
+.ph{
+  position:absolute;inset:0;display:grid;place-items:center;
+  background:
+    radial-gradient(80% 70% at 50% 110%, rgba(227,98,10,.28), transparent 70%),
+    repeating-linear-gradient(88deg,#1D140E 0px,#120B07 18px,#241811 34px,#120B07 52px);
+  color:rgba(227,98,10,.75);
+}
+.ph svg{width:34%;height:34%}
+.dish-body{flex:1;min-width:0;padding-top:2px;padding-right:44px}
+.dish-name{
+  font-size:15px;font-weight:600;letter-spacing:.02em;text-transform:uppercase;
+  line-height:1.2;margin:0 0 5px;
+}
+.dish-desc{
+  font-size:12.5px;line-height:1.32;color:var(--text-2);margin:0;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+.dish-price{
+  position:absolute;top:12px;right:14px;
+  font-size:18px;font-weight:700;color:var(--orange-hi);white-space:nowrap;
+}
+.aller-row{display:flex;gap:5px;margin-top:7px;flex-wrap:wrap}
+.al{width:17px;height:17px;border-radius:50%;display:grid;place-items:center;flex:0 0 auto}
+.al svg{width:11px;height:11px;color:#fff}
+.al-lg{width:30px;height:30px}
+.al-lg svg{width:18px;height:18px}
+
+/* =========================================================================
+   4 · DETALLE
+   ========================================================================= */
+#detalle .page{padding-top:0}
+.hero{
+  position:relative;width:100%;height:290px;margin-top:calc(-1 * var(--h-header));
+  background:#0B0704;overflow:hidden;
+}
+.hero img{width:100%;height:100%;object-fit:cover}
+.hero .ph{border-radius:0}
+.det{padding:20px var(--gutter) 0}
+.det-head{display:flex;align-items:baseline;justify-content:space-between;gap:14px}
+.det-title{font-size:23px;font-weight:700;text-transform:uppercase;line-height:1.15;margin:0}
+.det-title em{font-style:normal;color:var(--orange)}
+.det-price{font-size:22px;font-weight:700;color:var(--orange-hi);white-space:nowrap}
+.det-desc{font-size:13.5px;line-height:1.45;color:var(--text-2);margin:11px 0 0}
+.eyebrow{
+  font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  margin:24px 0 12px;display:flex;align-items:center;gap:12px;
+}
+.eyebrow::after{content:"";flex:1;height:1px;background:var(--b-soft)}
+.eyebrow.brand{color:var(--orange-hi)}
+.aller-grid{display:flex;flex-wrap:wrap;gap:11px}
+.aller-item{display:flex;flex-direction:column;align-items:center;gap:5px;width:56px}
+.aller-item small{font-size:9px;color:var(--text-3);text-align:center;line-height:1.15}
+.opts{display:flex;flex-direction:column;gap:7px}
+.opt{
+  height:44px;display:flex;align-items:center;padding:0 14px;
+  background:var(--surface-2);border:1px solid var(--b-row);border-radius:var(--r-ctrl);
+  font-size:14px;font-weight:500;
+}
+.note{
+  margin:22px 0 0;padding:13px 14px;border-radius:var(--r-ctrl);
+  background:rgba(255,255,255,.03);border:1px solid var(--b-soft);
+  font-size:11.5px;line-height:1.45;color:var(--text-3);
+}
+
+/* =========================================================================
+   CHIP DE CIERRE
+   ========================================================================= */
+.chip{
+  margin:26px var(--gutter) 0;height:40px;
+  display:flex;align-items:center;justify-content:center;gap:9px;
+  background:#0D0906;border:1px solid var(--b-brand);border-radius:var(--r-ctrl);
+  box-shadow:var(--glow-brand);
+  font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+}
+.chip svg{width:15px;height:15px;color:var(--ember)}
+
+/* =========================================================================
+   CONTACTO
+   ========================================================================= */
+.info{padding:0 var(--gutter);display:flex;flex-direction:column;gap:9px}
+.info-row{
+  display:flex;gap:13px;align-items:flex-start;padding:15px 14px;
+  background:var(--surface);border:1px solid var(--b-soft);border-radius:12px;
+}
+.info-row svg{width:19px;height:19px;color:var(--orange-hi);flex:0 0 auto;margin-top:1px}
+.info-row b{display:block;font-size:11px;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--text-3);margin-bottom:4px}
+.info-row p{margin:0;font-size:14px;line-height:1.45}
+.info-row a{color:var(--text);text-decoration:none}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- ══════════ SPLASH ══════════ -->
+  <section id="splash" class="view is-active" aria-label="Bienvenida">
+    <img class="splash-hero" alt=""
+         src="https://images.unsplash.com/photo-1508615263227-c5d58c1e5821?fm=jpg&q=70&w=800&auto=format&fit=crop">
+    <div class="logo" id="logoBig"></div>
+
+    <div class="claim">
+      <div class="claim-sm">Donde el</div>
+      <div class="claim-script">Sabor</div>
+      <div class="claim-sm">Sorprende</div>
+    </div>
+
+    <div class="splash-spacer"></div>
+
+    <button class="btn-primary" onclick="go('categorias')">
+      <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <path d="M5 3v8a2 2 0 0 0 4 0V3M7 11v10M17 3c-1.5 0-2.5 2-2.5 5s1 4 2.5 4v9"/>
+      </svg>
+      Ver carta
+    </button>
+
+    <nav class="socials" aria-label="Redes sociales">
+      <a href="#" aria-label="Instagram"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg></a>
+      <a href="#" aria-label="Facebook"><svg width="21" height="21" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.7-3.9 1.1 0 2.2.2 2.2.2v2.4h-1.2c-1.2 0-1.6.8-1.6 1.6V12h2.7l-.4 2.9h-2.3v7A10 10 0 0 0 22 12"/></svg></a>
+    </nav>
+
+    <svg class="chev-down" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+  </section>
+
+  <!-- ══════════ CATEGORÍAS ══════════ -->
+  <section id="categorias" class="view" aria-label="Menú">
+    <header class="hdr">
+      <button class="hdr-btn" onclick="go('splash')" aria-label="Inicio">
+        <svg width="21" height="21" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <div class="hdr-logo" id="logoTop1"></div>
+    </header>
+    <div class="page">
+      <h1 class="sect-title">Nuestro <em>Menú</em></h1>
+      <div class="ornament"><i></i><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.2 6.4L21 9.3l-4.8 4.3L17.7 21 12 17.4 6.3 21l1.5-7.4L3 9.3l6.8-.9z"/></svg><i></i></div>
+      <div class="cats" id="catList"></div>
+      <div class="chip"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2s5 4.5 5 9a5 5 0 0 1-10 0c0-1.6.6-3 1.4-4.2.2 1.4 1 2.4 2 2.4 1.3 0 1.8-1.3 1.4-3.1C11.4 4.7 12 2 12 2m0 20a7 7 0 0 0 7-7c0-1-.2-2-.5-2.9A9 9 0 0 1 12 22"/></svg>Donde el sabor sorprende</div>
+    </div>
+  </section>
+
+  <!-- ══════════ LISTA DE PLATOS ══════════ -->
+  <section id="lista" class="view" aria-label="Platos">
+    <header class="hdr">
+      <button class="hdr-btn" onclick="go('categorias')" aria-label="Volver">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <div class="hdr-logo" id="logoTop2"></div>
+    </header>
+    <div class="page">
+      <h1 class="sect-title" id="listTitle"></h1>
+      <div class="ornament"><i></i><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.2 6.4L21 9.3l-4.8 4.3L17.7 21 12 17.4 6.3 21l1.5-7.4L3 9.3l6.8-.9z"/></svg><i></i></div>
+      <div class="dishes" id="dishList"></div>
+      <div class="chip"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2s5 4.5 5 9a5 5 0 0 1-10 0c0-1.6.6-3 1.4-4.2.2 1.4 1 2.4 2 2.4 1.3 0 1.8-1.3 1.4-3.1C11.4 4.7 12 2 12 2m0 20a7 7 0 0 0 7-7c0-1-.2-2-.5-2.9A9 9 0 0 1 12 22"/></svg>Donde el sabor sorprende</div>
+    </div>
+  </section>
+
+  <!-- ══════════ DETALLE ══════════ -->
+  <section id="detalle" class="view" aria-label="Detalle del plato">
+    <header class="hdr">
+      <button class="hdr-btn" id="detBack" aria-label="Volver">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <div class="hdr-logo" id="logoTop3"></div>
+    </header>
+    <div class="page" id="detBody"></div>
+  </section>
+
+  <!-- ══════════ CONTACTO ══════════ -->
+  <section id="contacto" class="view" aria-label="Contacto">
+    <header class="hdr">
+      <button class="hdr-btn" onclick="go('categorias')" aria-label="Volver">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <div class="hdr-logo" id="logoTop4"></div>
+    </header>
+    <div class="page">
+      <h1 class="sect-title">Bar y <em>Restaurante</em></h1>
+      <div class="ornament"><i></i><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.2 6.4L21 9.3l-4.8 4.3L17.7 21 12 17.4 6.3 21l1.5-7.4L3 9.3l6.8-.9z"/></svg><i></i></div>
+      <!-- TODO Alejandro: sustituir por los datos reales del local -->
+      <div class="info">
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>
+          <div><b>Dirección</b><p>Pendiente de completar</p></div>
+        </div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a1.8 1.8 0 0 1-2 1.8C10.6 20.2 3.8 13.4 3.2 6A1.8 1.8 0 0 1 5 4z"/></svg>
+          <div><b>Reservas</b><p><a href="tel:">Pendiente de completar</a></p></div>
+        </div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2" stroke-linecap="round"/></svg>
+          <div><b>Horario</b><p>Sopa de mondongo los sábados<br>Sopa de res los domingos</p></div>
+        </div>
+      </div>
+      <div class="chip"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2s5 4.5 5 9a5 5 0 0 1-10 0c0-1.6.6-3 1.4-4.2.2 1.4 1 2.4 2 2.4 1.3 0 1.8-1.3 1.4-3.1C11.4 4.7 12 2 12 2m0 20a7 7 0 0 0 7-7c0-1-.2-2-.5-2.9A9 9 0 0 1 12 22"/></svg>Donde el sabor sorprende</div>
+    </div>
+  </section>
+
+  <!-- ══════════ NAV INFERIOR (sin carrito) ══════════ -->
+  <nav class="nav" id="nav" hidden aria-label="Navegación">
+    <button data-nav="inicio"   onclick="go('splash')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/></svg><span>Inicio</span></button>
+    <button data-nav="menu"     onclick="go('categorias')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 3v8a2 2 0 0 0 4 0V3M7 11v10M17 3c-1.5 0-2.5 2-2.5 5s1 4 2.5 4v9"/></svg><span>Menú</span></button>
+    <button data-nav="combos"   onclick="openCat('combos')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 9h16l-1.4 10.2a2 2 0 0 1-2 1.8H7.4a2 2 0 0 1-2-1.8z"/><path d="M8.5 9 10 4M15.5 9 14 4" stroke-linecap="round"/></svg><span>Combos</span></button>
+    <button data-nav="postres"  onclick="openCat('postres')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M6 11h12l-1 9a1.6 1.6 0 0 1-1.6 1.4H8.6A1.6 1.6 0 0 1 7 20z"/><path d="M8.5 11a3.5 3.5 0 0 1 7 0" /><path d="M12 7.5V5" stroke-linecap="round"/></svg><span>Postres</span></button>
+    <button data-nav="contacto" onclick="go('contacto')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="m3.6 6.7 8.4 6 8.4-6"/></svg><span>Contacto</span></button>
+  </nav>
+</div>
+
+<script>
+/* =========================================================================
+   DATOS · Carta Dana Bar y Restaurante HN
+   Precios y descripciones tal cual figuran en la carta del local.
+   img: id de foto Unsplash (licencia libre) → SUSTITUIR por fotos propias.
+   al:  alérgenos DEDUCIDOS de los ingredientes listados. Orientativo:
+        el propio local debe validarlos antes de publicar.
+   ========================================================================= */
+const U = (id,w) => `https://images.unsplash.com/photo-${id}?fm=jpg&q=70&w=${w}&auto=format&fit=crop`;
+
+const ALERGENOS = {
+  gluten:  {c:'#C0823D', n:'Gluten',   d:'M7 15c2-5 8-5 10 0M9 9.5 12 5l3 4.5M12 5v10'},
+  lacteos: {c:'#7E5FA0', n:'Lácteos',  d:'M9 3h6v3l2 4v11H7V10l2-4z'},
+  huevo:   {c:'#E0BE72', n:'Huevo',    d:'M12 3c3.3 0 6 4.6 6 8.5S15.3 19 12 19s-6-3.6-6-7.5S8.7 3 12 3z'},
+  pescado: {c:'#DE7259', n:'Pescado',  d:'M3 12c4-5 12-5 15 0-3 5-11 5-15 0zM18 12l3-3v6z'},
+  soja:    {c:'#5E9142', n:'Soja',     d:'M6 18c6 2 12-3 12-9-6 0-11 3-12 9zM6 18c0-4 2-7 5-9'},
+  frutos:  {c:'#B84C3F', n:'F. cáscara',d:'M12 3c4 0 7 3.5 7 8s-3 10-7 10-7-5.5-7-10 3-8 7-8z'}
+};
+
+const CATS = [
+  { id:'picar', l1:'Para', l2:'Picar', img:'1577835371994-379cc06f1fe5', items:[
+    {n:'Catracha', u:'(1)', p:'1 €', img:'1552332386-f8dd00dc2f85',
+     d:'Tortilla de maíz frita, frijoles, queso rallado.', al:['gluten','lacteos']},
+    {n:'Chilaquiles', p:'10 €', img:'1613514785940-daed07799d9b',
+     d:'Tortillas de maíz en triángulos fritos, carne molida encima, ensalada de repollo, chismol, salsa roja, salsa blanca, queso rallado.', al:['gluten','lacteos','huevo']},
+    {n:'Enchiladas', p:'8 €', img:'1564767655658-4e6b365884ff',
+     d:'Chismol, salsa roja, salsa blanca, queso rallado.', al:['lacteos','huevo']},
+    {n:'Patatas Bravas', p:'5 €', img:'1696265498747-efc4c0dd7b98',
+     d:'Patatas fritas, salsa brava y alioli.', al:['huevo']},
+    {n:'Plátano frito', u:'(1)', p:'5 €', img:'1540714605746-4f474eefc6d4',
+     d:'Plátano maduro frito, frijoles, queso, mantequilla.', al:['lacteos']},
+    {n:'Salchipapa', p:'5 €', img:'1562967916-eb82221dfb92',
+     d:'Patatas fritas, salchichas fritas, ketchup, salsa blanca.', al:['gluten','huevo']},
+    {n:'Tacos de Pollo', u:'(2)', p:'8 €', img:'1648437595587-e6a8b0cdf1f9',
+     d:'2 crujientes tacos rellenos de pollo desmenuzado, ensalada de repollo, chismol, salsa blanca, salsa roja.', al:['gluten','huevo']},
+    {n:'Tajadas con Carne', p:'10 €', img:'1762884601729-0eeeafbdfb8a',
+     d:'Tajadas de guineo verde, chismol, carne molida, ensalada de repollo, salsa roja, salsa blanca, queso rallado.', al:['lacteos','huevo']},
+    {n:'Tortillas con Quesillo', u:'(1)', p:'3 €', img:'1629793980446-192d630f0dbe',
+     d:'Tortillas de maíz rellenas de quesillo fundido. Puedes acompañarlas con chismol o frijoles fritos y queso.', al:['lacteos'],
+     o:['Con chismol','Con frijoles fritos y queso']}
+  ]},
+
+  { id:'sopas', l1:'Sopas', img:'1563336522-c3bd728d3b45', items:[
+    {n:'Sopa de Mondongo', p:'11,00 €', img:'1563336522-c3bd728d3b45',
+     d:'Disponible los sábados. Acompañada de arroz, 2 tortillas y limón.', al:['gluten']},
+    {n:'Sopa de Res', p:'12,00 €', img:'1633436375795-12b3b339712f',
+     d:'Disponible los domingos. Acompañada de arroz, 2 tortillas y limón.', al:['gluten']}
+  ]},
+
+  { id:'tipico', l1:'Desayuno', l2:'Típico', img:'1615870216519-2f9fa575fa5c', items:[
+    {n:'Cena / Desayuno típico', p:'8 €', img:'1694853651800-3e9b4aa96a42',
+     d:'Huevo, frijoles, queso, mantequilla, aguacate, plátano, chorizo, 2 tortillas.', al:['huevo','lacteos','gluten']}
+  ]},
+
+  { id:'fuertes', l1:'Platos', l2:'Fuertes', img:'1567932783552-e305bbf70b63', items:[
+    {n:'Parrillada Personal', p:'13 €', img:'1567932783552-e305bbf70b63',
+     d:'Chuleta, pechuga de pollo, carne de cerdo en tiras a la plancha y chorizo frito. Acompañada de arroz, frijoles, tajadas de guineo verde, chismol y 2 tortillas.', al:['gluten']},
+    {n:'Chuleta con Tajadas', p:'12 €', img:'1544025162-d76694265947',
+     d:'Chuleta a la plancha, tajadas de guineo verde, ensalada de repollo, chismol, salsa roja, salsa blanca.', al:['huevo'],
+     o:['Con barbacoa','Sin barbacoa']},
+    {n:'Chuleta Típica', p:'12 €', img:'1603360946369-dc9bb6258143',
+     d:'Chuleta a la plancha, arroz, frijoles, tajadas de guineo verde, queso y aguacate.', al:['lacteos'],
+     o:['Con barbacoa','Sin barbacoa']},
+    {n:'Plato Típico', p:'11 €', img:'1558030006-450675393462',
+     d:'Carne de cerdo en tiras a la plancha, chorizo frito, arroz, frijoles, tajadas de guineo verde, chismol y 2 tortillas.', al:['gluten']},
+    {n:'Pollo Broster', p:'10 €', img:'1569691899455-88464f6d3ab1',
+     d:'Pollo frito, arroz y patatas fritas.', al:['gluten']},
+    {n:'Pollo Chuco', p:'11 €', img:'1426869981800-95ebf51ce900',
+     d:'Pollo frito, tajadas de guineo verde, ensalada de repollo, chismol, salsa roja, salsa blanca.', al:['gluten','huevo']},
+    {n:'Yuca con Chicharrón', p:'13 €', img:'1569058242253-92a9c755a0ec',
+     d:'Yuca frita, chicharrón frito, ensalada de repollo, chismol, salsa roja, salsa blanca.', al:['huevo']},
+    {n:'Tajadas con Chicharrón', p:'13 €', img:'1676883053403-33804f323571',
+     d:'Tajadas de guineo verde, chicharrón de cerdo frito, ensalada de repollo, chismol, salsa roja, salsa blanca.', al:['huevo']},
+    {n:'Hamburguesa', p:'9,50 €', img:'1599488400918-5f5f96b3f463',
+     d:'Ternera, bacon, lechuga, tomate, aderezos, cebolla caramelizada y patatas fritas.', al:['gluten','huevo','lacteos','soja']}
+  ]},
+
+  { id:'baleadas', l1:'Baleadas', l2:'y más', img:'1565299585323-38d6b0865b47', items:[
+    {n:'Baleada Sencilla', u:'(2)', p:'5 €', img:'1565299585323-38d6b0865b47',
+     d:'Tortilla de harina con frijoles y queso, o frijoles y mantequilla.', al:['gluten','lacteos']},
+    {n:'Baleada con Huevo', u:'(2)', p:'6 €', img:'1545093149-618ce3bcf49d',
+     d:'Tortilla de harina, frijoles, huevo, queso y mantequilla.', al:['gluten','lacteos','huevo']},
+    {n:'Baleada con Pollo', u:'(2)', p:'9 €', img:'1504544750208-dc0358e63f7f',
+     d:'Tortilla de harina, pollo desmenuzado, frijoles, huevo, queso y mantequilla.', al:['gluten','lacteos','huevo']},
+    {n:'Pupusas de quesillo', p:'10 €', img:'1683062332605-4e1209d75346',
+     d:'Harina de maíz preparada, quesillo y encurtido.', al:['lacteos']},
+    {n:'Pescado frito', p:'15 €', img:'1586793783658-261cddf883ef',
+     d:'Tajadas, arroz y encurtido.', al:['pescado','gluten']}
+  ]},
+
+  { id:'pinchos', l1:'Pinchos', img:'1596995804697-27d11d43652e', items:[
+    {n:'Pincho de cerdo', p:'11 €', img:'1616252980327-ec70572e5df9',
+     d:'2 pinchos de carne, frijoles, chismol y queso.', al:['lacteos'],
+     o:['Con arroz','Con tajada de guineo verde']},
+    {n:'Pincho de ternera', p:'12 €', img:'1632158930341-46604b637a0f',
+     d:'2 pinchos de carne, frijoles, chismol y queso.', al:['lacteos'],
+     o:['Con arroz','Con tajada de guineo verde']}
+  ]},
+
+  { id:'combos', l1:'Combos', l2:'Familiares', img:'1555939594-58d7cb561ad1', items:[
+    {n:'Cajona Catracha', p:'37 €', img:'1614398751058-eb2e0bf63e53',
+     d:'10 trozos de pollo frito, 3 trozos de chuleta, abundantes tajadas de guineo verde, frijoles fritos, chismol, encurtido, salsa roja, salsa blanca y bebida de 2 litros.', al:['gluten','huevo'],
+     o:['Chuleta con barbacoa','Chuleta sin barbacoa']},
+    {n:'Cajona Catracha Mixta', p:'37 €', img:'1555939594-58d7cb561ad1',
+     d:'6 trozos de pollo frito, 3 trozos de chuleta, 2 chorizos, 6 chicharrones, abundantes tajadas de guineo verde, patatas fritas, frijoles, chismol, encurtido, salsa roja, salsa blanca y bebida de 2 litros.', al:['gluten','huevo'],
+     o:['Chuleta con barbacoa','Chuleta sin barbacoa']}
+  ]},
+
+  { id:'postres', l1:'Postres', img:'1615322681853-52a81fb318ac', items:[
+    {n:'Pastel 3 leches', p:'', img:'', destacado:true,
+     d:'Especialidad de la casa.', al:['lacteos','huevo','gluten']},
+    {n:'Flan', p:'', img:'', d:'', al:['lacteos','huevo']},
+    {n:'Helado', p:'', img:'', d:'', al:['lacteos']}
+  ]}
+];
+
+/* ===================== LOGO (recreación tipográfica) =====================
+   Cuando tengas el PNG del logo real, pon su ruta en LOGO_SRC.            */
+const LOGO_SRC = '';
+function logoHTML(){
+  if(LOGO_SRC) return `<img src="${LOGO_SRC}" alt="Dana Bar y Restaurante HN">`;
+  return `<div class="logo-flag"></div>
+    <div class="logo-mark">
+      <div>
+        <div class="logo-name">Dana</div>
+        <div class="logo-sub">Bar y Restaurante HN</div>
+      </div>
+      <div class="logo-two">2</div>
+    </div>`;
+}
+['logoBig','logoTop1','logoTop2','logoTop3','logoTop4'].forEach(id=>{
+  const el=document.getElementById(id); if(el) el.innerHTML=logoHTML();
+});
+
+/* ===================== PLACEHOLDER DE MARCA ===================== */
+const FLAME = `<div class="ph"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2s5 4.5 5 9a5 5 0 0 1-10 0c0-1.6.6-3 1.4-4.2.2 1.4 1 2.4 2 2.4 1.3 0 1.8-1.3 1.4-3.1C11.4 4.7 12 2 12 2m0 20a7 7 0 0 0 7-7c0-1-.2-2-.5-2.9A9 9 0 0 1 12 22"/></svg></div>`;
+
+function pic(id, w, cls){
+  if(!id) return FLAME;
+  return `<img class="${cls||''}" src="${U(id,w)}" alt="" loading="lazy"
+            onerror="var p=this.parentNode;this.remove();p.insertAdjacentHTML('beforeend',FLAME_)">`;
+}
+window.FLAME_ = FLAME;
+
+function alDots(list, big){
+  if(!list||!list.length) return '';
+  return list.map(k=>{
+    const a=ALERGENOS[k]; if(!a) return '';
+    return `<span class="al ${big?'al-lg':''}" style="background:${a.c}" title="${a.n}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+           stroke-linecap="round" stroke-linejoin="round"><path d="${a.d}"/></svg></span>`;
+  }).join('');
+}
+
+/* ===================== TÍTULOS BICOLOR =====================
+   Regla del sistema: el último token va en naranja.          */
+function bicolor(l1,l2){
+  if(!l2) return `<em>${l1}</em>`;                 // una palabra → todo naranja
+  return `${l1} <em>${l2}</em>`;
+}
+function splitName(n){
+  const w=n.trim().split(' ');
+  if(w.length===1) return `<em>${n}</em>`;
+  return w.slice(0,-1).join(' ')+' <em>'+w[w.length-1]+'</em>';
+}
+
+/* ===================== RENDER ===================== */
+const catList=document.getElementById('catList');
+catList.innerHTML = CATS.map(c=>`
+  <button class="cat" onclick="openCat('${c.id}')">
+    ${pic(c.img,500,'cat-img')}
+    <span class="cat-label ${c.l2?'':'one'}">
+      <span class="l1">${c.l1}</span>${c.l2?`<span class="l2">${c.l2}</span>`:''}
+    </span>
+    <svg class="cat-chev" width="19" height="19" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+  </button>`).join('');
+
+let curCat=null;
+
+function openCat(id){
+  curCat = CATS.find(c=>c.id===id);
+  document.getElementById('listTitle').innerHTML = bicolor(curCat.l1, curCat.l2);
+  document.getElementById('dishList').innerHTML = curCat.items.map((it,i)=>`
+    <button class="dish" onclick="openDish(${i})">
+      <span class="thumb">${pic(it.img,220)}</span>
+      <span class="dish-body">
+        <span class="dish-name">${it.n}${it.u?' <span style="opacity:.55">'+it.u+'</span>':''}</span>
+        ${it.d?`<span class="dish-desc">${it.d}</span>`:''}
+        <span class="aller-row">${alDots(it.al)}</span>
+      </span>
+      ${it.p?`<span class="dish-price">${it.p}</span>`:''}
+    </button>`).join('');
+  go('lista');
+}
+
+function openDish(i){
+  const it = curCat.items[i], cat = curCat;
+  document.getElementById('detBack').onclick = ()=>openCat(cat.id);
+  document.getElementById('detBody').innerHTML = `
+    <div class="hero">${pic(it.img,900)}</div>
+    <div class="det">
+      <div class="det-head">
+        <h1 class="det-title">${splitName(it.n)}</h1>
+        ${it.p?`<span class="det-price">${it.p}</span>`:''}
+      </div>
+      ${it.d?`<p class="det-desc">${it.d}</p>`:''}
+      ${it.al&&it.al.length?`
+        <div class="eyebrow">Alérgenos</div>
+        <div class="aller-grid">
+          ${it.al.map(k=>{const a=ALERGENOS[k];return `<div class="aller-item">
+            <span class="al al-lg" style="background:${a.c}">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+                   stroke-linecap="round" stroke-linejoin="round"><path d="${a.d}"/></svg></span>
+            <small>${a.n}</small></div>`}).join('')}
+        </div>`:''}
+      ${it.o?`
+        <div class="eyebrow brand">¿Cómo lo quieres?</div>
+        <div class="opts">${it.o.map(o=>`<div class="opt">${o}</div>`).join('')}</div>`:''}
+      <p class="note">Información de alérgenos orientativa, elaborada a partir de los ingredientes
+      de la carta. Consulta siempre al personal si tienes alguna alergia o intolerancia.</p>
+    </div>
+    <div class="chip"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2s5 4.5 5 9a5 5 0 0 1-10 0c0-1.6.6-3 1.4-4.2.2 1.4 1 2.4 2 2.4 1.3 0 1.8-1.3 1.4-3.1C11.4 4.7 12 2 12 2m0 20a7 7 0 0 0 7-7c0-1-.2-2-.5-2.9A9 9 0 0 1 12 22"/></svg>Donde el sabor sorprende</div>`;
+  go('detalle');
+}
+
+/* ===================== ROUTER ===================== */
+const NAVMAP={categorias:'menu',lista:'menu',detalle:'menu',contacto:'contacto',splash:'inicio'};
+function go(view,skipHistory){
+  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('is-active',v.id===view));
+  const nav=document.getElementById('nav');
+  nav.hidden = (view==='splash');
+  const key=NAVMAP[view];
+  nav.querySelectorAll('button').forEach(b=>b.classList.toggle('is-on',b.dataset.nav===key));
+  document.getElementById('app').scrollTop=0;
+  window.scrollTo(0,0);
+  if(!skipHistory) history.pushState({view,cat:curCat&&curCat.id},'');
+}
+window.addEventListener('popstate',e=>{
+  const s=e.state;
+  if(!s){ go('splash',true); return; }
+  if(s.cat) curCat=CATS.find(c=>c.id===s.cat);
+  go(s.view,true);
+});
+history.replaceState({view:'splash'},'');
+</script>
+</body>
+</html>
